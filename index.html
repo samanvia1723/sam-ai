@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionAI Pro - Advanced Computer Vision Solutions</title>
+    <meta name="description" content="Professional AI solutions for license plate recognition, vehicle detection, people counting, and radio signal analysis. Cutting-edge computer vision technology.">
+    <meta name="keywords" content="license plate recognition, vehicle detection, people counting, AI computer vision, ANPR, LPR">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="VisionAI Pro - Advanced Computer Vision Solutions">
+    <meta property="og:description" content="Professional AI solutions for license plate recognition, vehicle detection, and people counting.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #06b6d4;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --border-color: #e5e7eb;
+            --gradient: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: var(--gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .cta-button {
+            background: var(--gradient);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Mobile Navigation */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        .nav-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)" /></svg>') repeat;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            50% { transform: translateX(-20px) translateY(-20px); }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            border: 2px solid white;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        /* LPR Demo Section */
+        .lpr-demo {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .lpr-demo .section-title h2,
+        .lpr-demo .section-title p {
+            color: white;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .demo-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .demo-image {
+            margin-bottom: 1.5rem;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .image-placeholder {
+            height: 200px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .lpr-image {
+            background: linear-gradient(45deg, #374151 0%, #4b5563 100%);
+            background-image: 
+                radial-gradient(circle at 30% 60%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(16, 185, 129, 0.3) 0%, transparent 50%);
+        }
+
+        .vehicle-image {
+            background: linear-gradient(45deg, #1f2937 0%, #374151 100%);
+            background-image: 
+                radial-gradient(circle at 40% 40%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.3) 0%, transparent 50%);
+        }
+
+        .traffic-image {
+            background: linear-gradient(45deg, #065f46 0%, #047857 100%);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(34, 197, 94, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.3) 0%, transparent 50%);
+        }
+
+        .detection-box {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(59, 130, 246, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 2px solid #3b82f6;
+        }
+
+        .plate-number {
+            display: block;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .confidence {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .vehicle-info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(168, 85, 247, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 2px solid #a855f7;
+        }
+
+        .vehicle-details {
+            display: block;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .color-info {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .traffic-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .detection-point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #10b981;
+            border: 2px solid white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .point-1 { top: 30%; left: 25%; animation-delay: 0s; }
+        .point-2 { top: 60%; left: 50%; animation-delay: 0.5s; }
+        .point-3 { top: 45%; left: 75%; animation-delay: 1s; }
+
+        @keyframes pulse {
+            0% { 
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
+        .overlay-text {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .demo-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .demo-card p {
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* Technical Specifications */
+        .tech-specs {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tech-specs h3 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--accent-color);
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .spec-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .spec-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .spec-label {
+            display: block;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .spec-value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        /* Demo CTA Button */
+        .demo-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.3);
+            border: 2px solid transparent;
+        }
+
+        .demo-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(6, 182, 212, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 5rem 0;
+            background: var(--bg-light);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* About Section */
+        .about {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .about-visual {
+            background: var(--gradient);
+            border-radius: 20px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        /* Industries Section */
+        .industries {
+            padding: 5rem 0;
+            background: var(--bg-light);
+        }
+
+        .industries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .industry-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .industry-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 5rem 0;
+            background: var(--text-dark);
+            color: white;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .contact-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 2rem;
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Footer */
+        .footer {
+            background: #0f172a;
+            color: white;
+            padding: 3rem 0 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+            opacity: 0.7;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1200px) {
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .nav-links a {
+                font-size: 0.9rem;
+            }
+            
+            .cta-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 2rem 0;
+                transition: left 0.3s ease;
+                gap: 2rem;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                opacity: 0;
+                animation: fadeInUp 0.5s ease forwards;
+            }
+
+            .nav-links.active li:nth-child(1) { animation-delay: 0.1s; }
+            .nav-links.active li:nth-child(2) { animation-delay: 0.2s; }
+            .nav-links.active li:nth-child(3) { animation-delay: 0.3s; }
+            .nav-links.active li:nth-child(4) { animation-delay: 0.4s; }
+            .nav-links.active li:nth-child(5) { animation-delay: 0.5s; }
+            .nav-links.active li:nth-child(6) { animation-delay: 0.6s; }
+
+            @keyframes fadeInUp {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                justify-content: center;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">VisionAI Pro</div>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="lpr-demo.html">Live Demo</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#contact" class="cta-button">Get Started</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Empowering the AI-Driven Transformation</h1>
+            <p>Advanced computer vision and intelligence solutions for security, surveillance, and operational analytics. Our cutting-edge AI technology delivers real-time insights, automated monitoring, and intelligent decision-making capabilities.</p>
+            <div class="hero-buttons">
+                <a href="lpr-demo.html" class="btn-primary">Try Live Demo</a>
+                <a href="#services" class="btn-secondary">Our Capabilities</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- LPR Demo Section -->
+    <section id="lpr-demo" class="lpr-demo">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>License Plate Recognition in Action</h2>
+                <p>See our AI technology identify and analyze license plates with military-grade precision</p>
+            </div>
+            <div class="demo-grid">
+                <div class="demo-card fade-in">
+                    <div class="demo-image">
+                        <div class="image-placeholder lpr-image">
+                            <div class="detection-box">
+                                <span class="plate-number">ABC-1234</span>
+                                <span class="confidence">98.7% Confidence</span>
+                            </div>
+                            <div class="overlay-text">Real-time Detection</div>
+                        </div>
+                    </div>
+                    <h3>High-Accuracy Detection</h3>
+                    <p>Our AI processes license plates in real-time with 99%+ accuracy, even in challenging lighting conditions and various angles.</p>
+                </div>
+                <div class="demo-card fade-in">
+                    <div class="demo-image">
+                        <div class="image-placeholder vehicle-image">
+                            <div class="vehicle-info">
+                                <span class="vehicle-details">Toyota Camry 2022</span>
+                                <span class="color-info">Silver</span>
+                            </div>
+                            <div class="overlay-text">Vehicle Analytics</div>
+                        </div>
+                    </div>
+                    <h3>Complete Vehicle Analysis</h3>
+                    <p>Beyond license plates, we identify make, model, color, and year with advanced computer vision algorithms.</p>
+                </div>
+                <div class="demo-card fade-in">
+                    <div class="demo-image">
+                        <div class="image-placeholder traffic-image">
+                            <div class="traffic-overlay">
+                                <div class="detection-point point-1"></div>
+                                <div class="detection-point point-2"></div>
+                                <div class="detection-point point-3"></div>
+                            </div>
+                            <div class="overlay-text">Multi-Vehicle Tracking</div>
+                        </div>
+                    </div>
+                    <h3>Multi-Lane Monitoring</h3>
+                    <p>Simultaneously track multiple vehicles across lanes with our advanced AI, perfect for traffic management and security.</p>
+                </div>
+            </div>
+            
+            <!-- Interactive Demo Button -->
+            <div class="demo-cta fade-in" style="text-align: center; margin: 3rem 0;">
+                <a href="lpr-demo.html" class="demo-button">Try Interactive LPR Demo - Upload Your Images</a>
+                <p style="margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;">Test our AI with your own vehicle photos or use our sample images</p>
+            </div>
+            
+            <!-- Technical Specifications -->
+            <div class="tech-specs fade-in">
+                <h3>Technical Specifications</h3>
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <span class="spec-label">Accuracy Rate</span>
+                        <span class="spec-value">99.2%+</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Processing Speed</span>
+                        <span class="spec-value">30 FPS</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Detection Range</span>
+                        <span class="spec-value">1-50 meters</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Weather Conditions</span>
+                        <span class="spec-value">All Weather</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Character Support</span>
+                        <span class="spec-value">Global Standards</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Response Time</span>
+                        <span class="spec-value">&lt; 100ms</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Our Capabilities</h2>
+                <p>Advanced Intelligence for Smarter Decisions</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-icon">🚗</div>
+                    <h3>License Plate Recognition & Vehicle Analytics</h3>
+                    <p>Military-grade LPR technology with real-time vehicle detection, make/model identification, and automated surveillance capabilities. Advanced pattern recognition for traffic monitoring and security applications.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">👁️</div>
+                    <h3>Computer Vision & Surveillance Systems</h3>
+                    <p>AI-enhanced surveillance with threat detection, anomaly identification, and automated incident response. Real-time video analysis with integrated access control and biometric authentication.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">👥</div>
+                    <h3>Operational Intelligence & Analytics</h3>
+                    <p>Real-time data processing with edge AI capabilities. Advanced people counting, foot traffic analysis, and behavioral pattern recognition for optimized operational efficiency.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">📡</div>
+                    <h3>RF Monitoring & Signal Intelligence</h3>
+                    <p>Advanced radio frequency monitoring and signal collection systems. Real-time spectrum analysis, communication monitoring, and wireless network optimization for enhanced security awareness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="services">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Our Products</h2>
+                <p>Innovative Solutions for Smarter Security and Intelligence</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-icon">🛡️</div>
+                    <h3>V-System Pro</h3>
+                    <p>Military-grade RF monitoring and License Plate Recognition (LPR) for ultimate security and real-time situational awareness. Advanced threat detection with automated response capabilities.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">📊</div>
+                    <h3>Intelligence Dashboard</h3>
+                    <p>Dynamic analytics platform with customizable dashboards, real-time KPIs, and predictive insights. Make data-driven decisions with comprehensive visualization and reporting tools.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">👁️</div>
+                    <h3>Vision Analytics Suite</h3>
+                    <p>Comprehensive computer vision platform combining vehicle detection, people counting, and behavioral analysis. Real-time processing with edge AI capabilities for enhanced performance.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">🔐</div>
+                    <h3>Access Control System</h3>
+                    <p>Intelligent access management with facial recognition, biometric authentication, and real-time monitoring. Integrated security solution for restricted area management.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text fade-in">
+                    <h2>Driving Innovation for a Smarter, Faster Future</h2>
+                    <p>We provide cutting-edge data collection and analytics solutions for security, surveillance, and logistics. Our intuitive systems enable seamless interaction with location intelligence and real-time security data, empowering clients with advanced situational awareness and operational efficiency.</p>
+                    <p>By combining deep industry expertise and strategic consulting with advanced artificial intelligence and automation capabilities, we deliver agile, scalable, and intelligent solutions that accelerate growth, optimize performance, and enhance customer experiences. Our mission is to help businesses thrive in a rapidly evolving digital landscape by unlocking the full potential of technology and data-driven insights.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <span class="stat-number">99%+</span>
+                            <span class="stat-label">Accuracy Rate</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">Real-Time</span>
+                            <span class="stat-label">Processing</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Monitoring</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual fade-in">
+                    <span>🤖</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industries Section -->
+    <section id="industries" class="industries">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Industries We Serve</h2>
+                <p>Our AI solutions are trusted across various sectors for their reliability and performance.</p>
+            </div>
+            <div class="industries-grid">
+                <div class="industry-card fade-in">
+                    <h3>🏢 Real Estate</h3>
+                    <p>Location intelligence and property analytics solutions</p>
+                </div>
+                <div class="industry-card fade-in">
+                    <h3>🚚 Logistics</h3>
+                    <p>Route optimization and supply chain intelligence</p>
+                </div>
+                <div class="industry-card fade-in">
+                    <h3>🏙️ Smart Cities</h3>
+                    <p>Urban intelligence and infrastructure monitoring</p>
+                </div>
+                <div class="industry-card fade-in">
+                    <h3>🛡️ Security</h3>
+                    <p>Advanced surveillance and threat detection systems</p>
+                </div>
+                <div class="industry-card fade-in">
+                    <h3>🅿️ Transportation</h3>
+                    <p>Traffic management and vehicle monitoring</p>
+                </div>
+                <div class="industry-card fade-in">
+                    <h3>🏭 Industrial</h3>
+                    <p>Facility monitoring and operational analytics</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info fade-in">
+                    <h2>Your Path to Intelligent Solutions Starts Here</h2>
+                    <p>Ready to elevate your business with cutting-edge security and data-driven insights? Our experts are here to guide you through every step, from assessing your needs to implementing advanced solutions. Book a consultation today to discover how our technology can help transform your operations, enhance security, and maximize impact.</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <span>📧</span>
+                            <span>info@visionaipro.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <span>📞</span>
+                            <span>+1 (555) 123-4567</span>
+                        </div>
+                        <div class="contact-item">
+                            <span>📍</span>
+                            <span>123 AI Tech Park, Innovation City</span>
+                        </div>
+                        <div class="contact-item">
+                            <span>🕒</span>
+                            <span>Mon-Fri: 9AM-6PM</span>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form fade-in">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company</label>
+                        <input type="text" id="company" name="company" placeholder="Your company name">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Tell us about your project requirements..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; border: none; cursor: pointer;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>VisionAI Pro</h3>
+                    <p>Leading provider of AI computer vision solutions for modern businesses.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <a href="#">License Plate Recognition</a>
+                    <a href="#">Vehicle Detection</a>
+                    <a href="#">People Counting</a>
+                    <a href="#">Radio Signal Analysis</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <a href="#">About Us</a>
+                    <a href="#">Case Studies</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Careers</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <a href="#">Documentation</a>
+                    <a href="#">API Reference</a>
+                    <a href="#">Contact Support</a>
+                    <a href="#">FAQ</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 VisionAI Pro. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        navToggle.addEventListener('click', function() {
+            navToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        // Fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Header background change on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Here you would typically send the data to your backend
+            // For now, we'll just show an alert
+            alert('Thank you for your message! We\'ll get back to you within 24 hours.');
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Add some interactive elements
+        document.querySelectorAll('.service-card, .industry-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
